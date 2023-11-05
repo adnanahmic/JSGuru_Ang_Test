@@ -1,0 +1,25 @@
+header css .example-spacer {
+  flex: 1 1 auto;
+}
+.logo {
+  cursor: pointer;
+}
+.navbar {
+  font-size: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.item {
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.logo img {
+  max-height: 50px;
+}
+
+.router-link-active {
+  border-bottom: 1px solid #fff;
+  padding: 10px;
+}

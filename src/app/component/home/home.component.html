@@ -1,0 +1,92 @@
+<div class="example-header">
+  <mat-form-field appearance="outline">
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Filter By Author"
+    />
+  </mat-form-field>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    multiTemplateDataRows
+    class="mat-elevation-z8"
+  >
+    <ng-container
+      matColumnDef="{{ column }}"
+      *ngFor="let column of columnsToDisplay"
+    >
+      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+    </ng-container>
+
+    <!-- Expand Section -->
+    <ng-container matColumnDef="expandedDetail">
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [attr.colspan]="columnsToDisplay.length"
+      >
+        <div
+          class="collapsed-droppdown"
+          [@detailExpand]="
+            element == expandedElement ? 'expanded' : 'collapsed'
+          "
+          (click)="toggleDropdown(element)"
+        >
+          <table class="table dropdown">
+            <tbody>
+              <tr>
+                <td><b>ID:</b></td>
+                <td>{{ element.id }}</td>
+              </tr>
+              <tr>
+                <td><b>User ID:</b></td>
+                <td>{{ element.userId }}</td>
+              </tr>
+              <tr>
+                <td><b>Title:</b></td>
+                <td>{{ element.title }}</td>
+              </tr>
+              <tr>
+                <td><b>Body:</b></td>
+                <td>{{ element.body }}</td>
+              </tr>
+              <tr>
+                <td><b>Comments:</b></td>
+                <td>
+                  <div *ngFor="let item of element.comments">
+                    <ul>
+                      <li>{{ item.name }}</li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplay"
+      class="table-row-collapsed"
+      [class.expanded-row]="expandedElement === element"
+      (click)="toggleDropdown(element)"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="table-row"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    #paginator
+    [pageSize]="5"
+    [pageSizeOptions]="paginationOptions"
+  >
+  </mat-paginator>
+</div>
